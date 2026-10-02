@@ -5,6 +5,9 @@ set -eu
 max_attempts=60
 attempt=1
 
+mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+
 echo "Waiting for the database..."
 until php artisan migrate --force >/dev/null 2>&1; do
     if [ "$attempt" -ge "$max_attempts" ]; then

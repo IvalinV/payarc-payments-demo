@@ -64,8 +64,9 @@ services:
       test: [
         "CMD",
         "wget",
-        "--spider",
         "-q",
+        "-O",
+        "/dev/null",
         "http://localhost:8081/healthz"
       ]
       interval: 5s
