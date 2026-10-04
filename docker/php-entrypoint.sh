@@ -22,6 +22,9 @@ done
 echo "Running migrations..."
 php artisan migrate --force
 
+echo "Seeding demo data..."
+php artisan apiato:seed-deploy
+
 mkdir -p storage/framework
 touch storage/framework/app-ready
 

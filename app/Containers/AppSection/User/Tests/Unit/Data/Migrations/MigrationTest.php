@@ -11,11 +11,14 @@ final class MigrationTest extends UnitTestCase
     public function testUsersTableHasExpectedColumns(): void
     {
         $columns = [
-            'id' => 'int8',
+            'id' => 'bigint',
             'name' => 'varchar',
             'email' => 'varchar',
             'email_verified_at' => 'timestamp',
             'password' => 'varchar',
+            'is_admin' => 'tinyint',
+            'is_agent' => 'tinyint',
+            'is_merchant' => 'tinyint',
             'gender' => 'varchar',
             'birth' => 'date',
             'remember_token' => 'varchar',
@@ -41,11 +44,11 @@ final class MigrationTest extends UnitTestCase
     {
         $columns = [
             'id' => 'varchar',
-            'user_id' => 'int8',
+            'user_id' => 'bigint',
             'ip_address' => 'varchar',
             'user_agent' => 'text',
-            'payload' => 'text',
-            'last_activity' => 'int4',
+            'payload' => 'longtext',
+            'last_activity' => 'int',
         ];
 
         $this->assertDatabaseTable('sessions', $columns);

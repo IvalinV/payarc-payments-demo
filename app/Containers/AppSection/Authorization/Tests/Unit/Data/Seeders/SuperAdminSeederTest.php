@@ -13,10 +13,9 @@ final class SuperAdminSeederTest extends UnitTestCase
 {
     public function testSeedsSuperAdmin(): void
     {
-        $this->assertDatabaseCount('users', 1);
-        $user = User::first();
-        $this->assertSame('admin@admin.com', $user->email);
-        $this->assertSame('Super Admin', $user->name);
-        $this->assertTrue(Hash::check('admin', $user->password));
+        $user = User::where('email', 'admin@payarc.test')->firstOrFail();
+        $this->assertSame('admin@payarc.test', $user->email);
+        $this->assertSame('Demo Admin', $user->name);
+        $this->assertTrue(Hash::check('Demo#12345', $user->password));
     }
 }

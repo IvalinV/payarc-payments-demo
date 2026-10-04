@@ -2,20 +2,29 @@
 
 namespace App\Containers\AppSection\User\Models;
 
+use App\Containers\AppSection\Payments\Models\Account;
+use App\Containers\AppSection\Payments\Models\Agent;
+use App\Containers\AppSection\User\Observers\UserRoleObserver;
 use App\Containers\AppSection\Authorization\Enums\Role as RoleEnum;
 use App\Containers\AppSection\User\Data\Collections\UserCollection;
 use App\Containers\AppSection\User\Enums\Gender;
 use App\Ship\Parents\Models\UserModel as ParentUserModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class User extends ParentUserModel
 {
+    protected $guard_name = 'web';
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'gender',
         'birth',
+        'is_admin',
+        'is_agent',
+        'is_merchant',
     ];
 
     protected $hidden = [
@@ -28,7 +37,44 @@ final class User extends ParentUserModel
         'password' => 'hashed',
         'gender' => Gender::class,
         'birth' => 'immutable_date',
+        'is_admin' => 'boolean',
+        'is_agent' => 'boolean',
+        'is_merchant' => 'boolean',
     ];
+
+    public function assignRole(...$roles)
+    {
+        $result = parent::assignRole(...$roles);
+        app(UserRoleObserver::class)->syncFlags($this);
+
+        return $result;
+    }
+
+    public function removeRole(...$roles)
+    {
+        $result = parent::removeRole(...$roles);
+        app(UserRoleObserver::class)->syncFlags($this);
+
+        return $result;
+    }
+
+    public function syncRoles(...$roles)
+    {
+        $result = parent::syncRoles(...$roles);
+        app(UserRoleObserver::class)->syncFlags($this);
+
+        return $result;
+    }
+
+    public function accounts(): BelongsToMany
+    {
+        return $this->belongsToMany(Account::class, 'account_user');
+    }
+
+    public function agents(): BelongsToMany
+    {
+        return $this->belongsToMany(Agent::class, 'agent_user');
+    }
 
     public function newCollection(array $models = []): UserCollection
     {
