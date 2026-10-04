@@ -91,13 +91,7 @@ final class User extends ParentUserModel
 
     public function isSuperAdmin(): bool
     {
-        foreach (array_keys(config('auth.guards')) as $guard) {
-            if (!$this->hasRole(RoleEnum::SUPER_ADMIN, $guard)) {
-                return false;
-            }
-        }
-
-        return true;
+        return $this->hasRole(RoleEnum::SUPER_ADMIN, 'web');
     }
 
     protected function email(): Attribute

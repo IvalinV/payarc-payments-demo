@@ -6,11 +6,13 @@ FROM php:8.4-fpm
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    libicu-dev \
     libzip-dev \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
     && docker-php-ext-install \
+    intl \
     pdo_mysql \
     mbstring \
     exif \

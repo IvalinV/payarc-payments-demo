@@ -2,11 +2,17 @@
 
 namespace App\Nova;
 
+use App\Containers\AppSection\User\Enums\Gender;
 use Illuminate\Http\Request;
 use Laravel\Nova\Auth\PasswordValidationRules;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -37,6 +43,11 @@ class User extends Resource
         'id', 'name', 'email',
     ];
 
+    public static function availableForNavigation(Request $request): bool
+    {
+        return (bool) $request->user()?->can('users.manage');
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -59,10 +70,25 @@ class User extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
+            Select::make('Gender')->options(Gender::class)->displayUsingLabels()->nullable(),
+            Date::make('Birth')->nullable(),
+            Boolean::make('Admin', 'is_admin'),
+            Boolean::make('Agent', 'is_agent')->readonly(),
+            Boolean::make('Merchant', 'is_merchant')->readonly(),
+
+            BelongsToMany::make('Roles'),
+            BelongsToMany::make('Permissions'),
+
+            BelongsToMany::make('Accounts'),
+            BelongsToMany::make('Agents'),
+
             Password::make('Password')
                 ->onlyOnForms()
                 ->creationRules($this->passwordRules())
                 ->updateRules($this->optionalPasswordRules()),
+
+            DateTime::make('Created At')->readonly(),
+            DateTime::make('Updated At')->readonly(),
         ];
     }
 

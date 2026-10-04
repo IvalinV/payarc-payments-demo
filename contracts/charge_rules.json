@@ -1,0 +1,66 @@
+{
+  "currencies": ["USD", "EUR", "GBP", "BGN"],
+  "amount": {
+    "minimum": 1,
+    "maximum": 100000000,
+    "unit": "minor"
+  },
+  "invariants": [
+    "0 <= amount_refunded <= amount_captured <= amount",
+    "amount_voided is 0 or amount",
+    "captured and voided are mutually exclusive"
+  ],
+  "operations": {
+    "create": {
+      "capture_default": true,
+      "capture_true": {
+        "status": "captured",
+        "amount_captured": "amount"
+      },
+      "capture_false": {
+        "status": "authorized",
+        "amount_captured": 0
+      },
+      "account_required": ["active", "active_yn"],
+      "external_transaction_id": "txn_<ULID>",
+      "server_generated": ["external_transaction_id"]
+    },
+    "capture": {
+      "from": ["authorized"],
+      "to": "captured",
+      "amount_captured": "amount",
+      "invalid_state": "invalid_state",
+      "invalid_state_status": 409
+    },
+    "refund": {
+      "from": ["captured"],
+      "disputed": false,
+      "amount_default": "amount_captured - amount_refunded",
+      "amount_must_be": "integer > 0",
+      "amount_must_not_exceed": "amount_captured - amount_refunded",
+      "effect": {
+        "amount_refunded": "amount_refunded + refund_amount",
+        "refunded": true
+      },
+      "fully_refunded_status": "refunded",
+      "already_fully_refunded": "charge_already_refunded",
+      "already_fully_refunded_status": 409,
+      "exceeds_refundable": "amount_exceeds_refundable",
+      "exceeds_refundable_status": 422
+    },
+    "void": {
+      "from": ["authorized"],
+      "disputed": false,
+      "to": "voided",
+      "amount_voided": "amount",
+      "reason_field": "void_reason",
+      "already_voided": "charge_already_voided",
+      "already_voided_status": 409,
+      "invalid_state": "invalid_state",
+      "invalid_state_status": 409
+    }
+  },
+  "terminal_statuses": ["refunded", "voided", "failed"],
+  "reject_unknown_fields": true,
+  "card_data_allowed": false
+}

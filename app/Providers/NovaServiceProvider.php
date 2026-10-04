@@ -3,6 +3,15 @@
 namespace App\Providers;
 
 use App\Containers\AppSection\User\Models\User;
+use App\Containers\AppSection\Payments\Models\Account;
+use App\Containers\AppSection\Payments\Models\Agent;
+use App\Containers\AppSection\Payments\Models\Charge;
+use App\Containers\AppSection\Payments\Policies\AccountPolicy;
+use App\Containers\AppSection\Payments\Policies\AgentPolicy;
+use App\Containers\AppSection\Payments\Policies\ChargePolicy;
+use App\Containers\AppSection\User\Policies\UserPolicy;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Fortify\Features;
 use Laravel\Nova\Nova;
@@ -17,7 +26,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
-        //
+        Gate::policy(Account::class, AccountPolicy::class);
+        Gate::policy(Agent::class, AgentPolicy::class);
+        Gate::policy(Charge::class, ChargePolicy::class);
+        Gate::policy(User::class, UserPolicy::class);
     }
 
     /**
@@ -32,6 +44,17 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
                 // Features::passkeys(),
             ])
+            ->authenticateUsing(function (Request $request): ?User {
+                $user = User::query()->where('email', $request->input('email'))->first();
+
+                if ($user === null || ! Hash::check((string) $request->input('password'), (string) $user->getAuthPassword())) {
+                    return null;
+                }
+
+                return $user->hasRole('admin', 'web') && $user->can('admin.access')
+                    ? $user
+                    : null;
+            })
             ->register();
     }
 
@@ -55,11 +78,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate(): void
     {
         Gate::define('viewNova', function (User $user) {
-            return true; // TODO:Remove before committing
-            
-            return in_array($user->email, [
-                //
-            ]);
+            return $user->hasRole('admin', 'web') && $user->can('admin.access');
         });
     }
 
