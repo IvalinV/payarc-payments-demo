@@ -37,6 +37,7 @@ final class InitialDeploymentDataSeeder extends Seeder
             'admin.access',
             'charges.view',
             'charges.create',
+            'charges.capture',
             'charges.refund',
             'charges.void',
             'merchants.manage',
@@ -53,7 +54,7 @@ final class InitialDeploymentDataSeeder extends Seeder
 
         $rolePermissions = [
             'admin' => $permissionNames,
-            'merchant' => ['charges.view', 'charges.create', 'charges.refund', 'charges.void'],
+            'merchant' => ['charges.view', 'charges.create', 'charges.capture', 'charges.refund', 'charges.void'],
             'agent' => ['charges.view'],
         ];
 

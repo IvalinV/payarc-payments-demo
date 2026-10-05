@@ -7,7 +7,7 @@ use App\Containers\AppSection\Payments\Services\ChargeService;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -38,7 +38,7 @@ final class RefundCharge extends Action
     public function fields(NovaRequest $request): array
     {
         return [
-            Number::make('Amount')->nullable()->min(1)->rules('nullable', 'integer', 'min:1'),
+            Currency::make('Amount')->asMinorUnits()->nullable()->min(0.01)->rules('nullable', 'numeric', 'min:0.01'),
             Text::make('Reason')->nullable()->rules('nullable', 'max:255'),
         ];
     }

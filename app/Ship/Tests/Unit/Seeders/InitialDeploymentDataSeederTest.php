@@ -34,7 +34,13 @@ final class InitialDeploymentDataSeederTest extends TestCase
         self::assertSame(2, DB::table('agent_user')->count());
 
         self::assertSame(3, DB::table('roles')->where('guard_name', 'web')->whereIn('name', ['admin', 'merchant', 'agent'])->count());
-        self::assertSame(8, DB::table('permissions')->count());
+        self::assertSame(9, DB::table('permissions')->count());
+        self::assertSame(1, DB::table('role_has_permissions')
+            ->join('roles', 'roles.id', '=', 'role_has_permissions.role_id')
+            ->join('permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+            ->where('roles.name', 'merchant')
+            ->where('permissions.name', 'charges.capture')
+            ->count());
         self::assertSame(5, DB::table('charges')->distinct('status')->count('status'));
         self::assertSame(1, DB::table('accounts')->where('status', 'suspended')->count());
     }

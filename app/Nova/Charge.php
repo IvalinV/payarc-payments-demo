@@ -175,6 +175,7 @@ class Charge extends Resource
         return [
             new \App\Nova\Actions\RefundCharge,
             new \App\Nova\Actions\VoidCharge,
+            new \App\Nova\Actions\CaptureCharge,
         ];
     }
 }

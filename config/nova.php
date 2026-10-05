@@ -93,6 +93,7 @@ return [
 
     'middleware' => [
         'web',
+        \App\Ship\Middleware\EnsureNovaAdmin::class,
         \Laravel\Nova\Http\Middleware\HandleInertiaRequests::class,
         'nova:serving',
     ],
