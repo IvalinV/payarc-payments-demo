@@ -40,8 +40,10 @@ export function toChargeQuery({ search = '', status = '', page = 1, pageSize = 2
     const params = new URLSearchParams({ page: String(page), page_size: String(pageSize) });
     if (search.trim()) params.set('q', search.trim());
     if (status) params.set('status', status);
-    const sort = sortModel[0];
-    if (sort?.colId && (sort.sort === 'asc' || sort.sort === 'desc')) params.set('sort', `${sort.colId}:${sort.sort}`);
+    const sorts = sortModel
+        .filter((sort) => sort?.colId && (sort.sort === 'asc' || sort.sort === 'desc'))
+        .map((sort) => `${sort.colId}:${sort.sort}`);
+    if (sorts.length) params.set('sort', sorts.join(','));
     for (const [field, filter] of Object.entries(filterModel)) {
         if (filter?.filter != null && ['status', 'currency', 'account_id'].includes(field)) params.set(field, String(filter.filter));
     }

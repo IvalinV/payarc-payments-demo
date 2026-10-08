@@ -63,6 +63,15 @@ describe('toChargeQuery', () => {
             },
         })).toBe('page=1&page_size=100&sort=created_at%3Adesc&status=captured&currency=USD');
     });
+
+    it('maps all active grid sorts to the API query contract', () => {
+        expect(toChargeQuery({
+            sortModel: [
+                { colId: 'amount', sort: 'desc' },
+                { colId: 'created_at', sort: 'asc' },
+            ],
+        })).toBe('page=1&page_size=25&sort=amount%3Adesc%2Ccreated_at%3Aasc');
+    });
 });
 
 describe('canActOnCharge', () => {
