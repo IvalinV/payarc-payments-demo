@@ -2,11 +2,11 @@ FROM node:22-alpine AS assets
 
 WORKDIR /src
 
-COPY package*.json ./
+COPY web/package*.json ./
 RUN npm ci
 
-COPY index.html vite.config.js ./
-COPY resources ./resources
+COPY web/index.html web/vite.config.js ./
+COPY web/resources ./resources
 RUN npm run build
 
 FROM nginx:1.27-alpine

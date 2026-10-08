@@ -18,11 +18,14 @@ _ide_helper*.php
 # Laravel
 /.phpunit.cache
 /node_modules
+/web/node_modules
+/web/dist
 /public/build
 /dist
 /public/hot
 /public/storage
 /storage/*.key
+/php/storage/
 /storage/pail
 /vendor
 /php/vendor

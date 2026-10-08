@@ -8,6 +8,14 @@ attempt=1
 mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
 
+if [ ! -f storage/oauth-private.key ] || [ ! -f storage/oauth-public.key ]; then
+    php artisan passport:keys
+fi
+
+chown www-data:www-data storage/oauth-private.key storage/oauth-public.key
+chmod 600 storage/oauth-private.key
+chmod 660 storage/oauth-public.key
+
 echo "Waiting for the database..."
 until php artisan migrate --force >/dev/null 2>&1; do
     if [ "$attempt" -ge "$max_attempts" ]; then
