@@ -1,8 +1,7 @@
 import './bootstrap';
+import { createElement } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './portal/App';
+import '../css/app.css';
 
-document.querySelector('#app').innerHTML = `
-    <main>
-        <h1>Payarc Payments Demo</h1>
-        <p>Merchant portal scaffold is ready.</p>
-    </main>
-`;
+createRoot(document.querySelector('#app')).render(createElement(App));

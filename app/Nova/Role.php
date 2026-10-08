@@ -6,7 +6,7 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Spatie\Permission\Models\Role as RoleModel;
+use App\Containers\AppSection\Authorization\Models\Role as RoleModel;
 
 final class Role extends Resource
 {

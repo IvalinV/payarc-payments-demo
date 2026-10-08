@@ -40,3 +40,6 @@ yarn-error.log
 /.vscode
 /.zed
 /PLAN_AGENT_EXECUTION_SPEC.md
+.agents/*
+/agent
+.claude

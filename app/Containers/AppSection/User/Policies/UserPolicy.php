@@ -31,7 +31,7 @@ final class UserPolicy extends ParentPolicy
         return $user !== null && $target !== null && $user->can('users.manage') && ! $user->is($target);
     }
 
-    public function show(User $user, User $target): bool
+    public function view(User $user, User $target): bool
     {
         return $user->is($target) || $user->can('users.manage');
     }

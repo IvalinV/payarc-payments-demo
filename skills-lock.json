@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "skills": {
+    "docker-agent-config": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-agent-config/SKILL.md",
+      "computedHash": "e0948c9b549c9173f0670156fd98bd3e0aeace92f635528ec120c3d9bf10bab5"
+    },
+    "docker-agent-deploy": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-agent-deploy/SKILL.md",
+      "computedHash": "5872dc7aaffbb4928e2e88f9488a338c2f70065fdb77067599f898d24b1db44e"
+    },
+    "docker-agent-run": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-agent-run/SKILL.md",
+      "computedHash": "d91d58413581bba710346799761a319854b6e5c51fe2d24a0c95f2f8c18783be"
+    },
+    "docker-build-strategies": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-build-strategies/SKILL.md",
+      "computedHash": "e6a297d613873cf74b030655ee8405ca4434980cfb0dfd412ac5aa4e213d3d5c"
+    },
+    "docker-compose-patterns": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-compose-patterns/SKILL.md",
+      "computedHash": "391f366bb0e60f5c7c48ecc814b917e7dae797edbb58625d228cb951d7a538ee"
+    },
+    "docker-destructive-guardrails": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-destructive-guardrails/SKILL.md",
+      "computedHash": "f6c72f2ba003b2d6dc480f97beb0e166a61b5acfb1f0f6f31af2fa21a66bd9f2"
+    },
+    "docker-project-foundations": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-project-foundations/SKILL.md",
+      "computedHash": "6b2334b2c24910d177e1f80a0cc1f5135f2a9b33b722673873435736de36128f"
+    },
+    "docker-sandboxes-env": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-sandboxes-env/SKILL.md",
+      "computedHash": "3a8f7fcb3b555e7573e6d5f8958a99e388a6676c0cb425bfa44d3d6c78d68536"
+    },
+    "docker-sandboxes-kits": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-sandboxes-kits/SKILL.md",
+      "computedHash": "d47d99b4f71c0dc39313164f35248d327a2725ab06db97e300e70aa9610b3bdb"
+    },
+    "docker-sandboxes-lifecycle": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-sandboxes-lifecycle/SKILL.md",
+      "computedHash": "551fb87ea0e47c632a5cb23cb2f8c06c680226cd49699bc19c999fc820f5633f"
+    },
+    "docker-sandboxes-network-credentials": {
+      "source": "docker/skills",
+      "sourceType": "github",
+      "skillPath": "skills/docker-sandboxes-network-credentials/SKILL.md",
+      "computedHash": "a74622051cc1f6fae30d0adfc2dbd33f5a3d83b484929772ee9a8a298ca2586a"
+    },
+    "feature-arch": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/feature-arch/SKILL.md",
+      "computedHash": "ca38cc80ae8ec57a8acc6ff5fb9c682ea56059c14b1f8556683c741b9ed1acdb"
+    },
+    "msw": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/msw/SKILL.md",
+      "computedHash": "c432eaa96c11e729a6d305988c79bf944d6a741bc55e6a51ba5fae8d6031f976"
+    },
+    "nextjs": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/nextjs/SKILL.md",
+      "computedHash": "742d59fb99fe4a1d689cc5c275225b01c668f5b84099c0009460de089f9cde3d"
+    },
+    "nuqs": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/nuqs/SKILL.md",
+      "computedHash": "7ed63cdb3c613d527a997cab85eb6b63ecc04871c3991716a493b53f8ee4c868"
+    },
+    "playwright": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/playwright/SKILL.md",
+      "computedHash": "1fce9cc4527b3e4099a3b8ae850fedc13f170cb8813073eb2b72b507fd275fdc"
+    },
+    "react": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react/SKILL.md",
+      "computedHash": "cd5cf9aa17a82a1068c83f153d9d60f5d5c3c976342571cb5fc6f7527d0a7b6b"
+    },
+    "react-hook-form": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-hook-form/SKILL.md",
+      "computedHash": "6b34d793c9b984beeaf757d8e443eea32902f8f253dbbfb873e336d56f0f26d0"
+    },
+    "shadcn": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "e748d038be68ab8a66c5f6978f5392e5124f504b1bfa22418fb78ceaf1be9378"
+    },
+    "tailwind": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tailwind/SKILL.md",
+      "computedHash": "19cd29378cfa3a251919eac8e408662a066f9b56594ff4fb3106b75a20a2f42f"
+    },
+    "tanstack-query": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tanstack-query/SKILL.md",
+      "computedHash": "51ca413014235630af453bf3e98ad25f80ed2cac0490766314739efd8cc3cf2f"
+    },
+    "tdd": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tdd/SKILL.md",
+      "computedHash": "a621ec585c9abdc1ba02368748ec3ee9fa78a170432bf7f38b09fb37a0eb1b2e"
+    },
+    "typescript": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/typescript/SKILL.md",
+      "computedHash": "079307d2aa7d37891ec6d64f0bc23e4a02c322b8ed93843d474dc9a994aabedc"
+    },
+    "ui-design": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ui-design/SKILL.md",
+      "computedHash": "34e7f0eeeca2a3bb9559ce18307ff61e45b7f2a073e3da5321e228209f91084b"
+    },
+    "vercel-composition-patterns": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vercel-composition-patterns/SKILL.md",
+      "computedHash": "62e8629c8c86348252bf73d6590e7bf54e8cd20d87e2f812109d5519dccd6dc1"
+    },
+    "vercel-react-best-practices": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vercel-react-best-practices/SKILL.md",
+      "computedHash": "c2132495f91c8fd53a6f8957203b3dfc083adfa66585746349f747150b686f6a"
+    },
+    "vitest": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vitest/SKILL.md",
+      "computedHash": "84fd5f0e0d6ca89a28c165c87eaeab616ecccee7cd907a8618b06cc4abc48313"
+    },
+    "web-design-guidelines": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
+    },
+    "zod": {
+      "source": "thongdn-it/react-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/zod/SKILL.md",
+      "computedHash": "da1eaa7961d300a03d5420dbea5163462d066e69a934da7d9a9a627adcf4b690"
+    }
+  }
+}

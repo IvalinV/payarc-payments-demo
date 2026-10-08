@@ -19,12 +19,12 @@ final class UserPolicyTest extends UnitTestCase
         $this->assertFalse($policy->delete());
     }
 
-    public function testCanShowUserOnlyIfAdmin(): void
+    public function testCanViewUserOnlyIfAdmin(): void
     {
         $policy = app(UserPolicy::class);
         $user = User::factory()->createOne();
 
-        $this->assertTrue($policy->show($user, $user));
+        $this->assertTrue($policy->view($user, $user));
     }
 
     public function testCanIndexUsersOnlyIfAdmin(): void

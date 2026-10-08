@@ -3,16 +3,30 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "test": "vitest run"
     },
     "devDependencies": {
+        "@testing-library/jest-dom": "^6.6.3",
+        "@testing-library/react": "^16.1.0",
+        "@vitejs/plugin-react": "^4.3.4",
         "apidoc": "^1.0.0",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
+        "jsdom": "^25.0.1",
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.47",
         "tailwindcss": "^3.4.13",
-        "vite": "^6.0.11"
+        "vite": "^6.0.11",
+        "vitest": "^2.1.8"
+    },
+    "dependencies": {
+        "@ag-grid-community/core": "^32.3.3",
+        "@ag-grid-community/infinite-row-model": "^32.3.9",
+        "@ag-grid-community/react": "^32.3.3",
+        "@ag-grid-community/styles": "^32.3.9",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1"
     }
 }

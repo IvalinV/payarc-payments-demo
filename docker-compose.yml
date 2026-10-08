@@ -93,7 +93,8 @@ services:
         "wget",
         "--spider",
         "-q",
-        "http://localhost/"
+        "--header=Host: localhost",
+        "http://127.0.0.1/"
       ]
       interval: 5s
       timeout: 5s
