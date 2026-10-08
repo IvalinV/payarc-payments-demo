@@ -1,35 +1,58 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
+	"context"
+	"database/sql"
+	"errors"
+	"log/slog"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+	"payarc-payments-demo/go-api/internal/config"
+	"payarc-payments-demo/go-api/internal/db"
+	"payarc-payments-demo/go-api/internal/httpapi"
 )
 
-func healthHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		w.Header().Set("Allow", http.MethodGet)
-		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(map[string]string{"status": "ok"}); err != nil {
-		log.Printf("health response failed: %v", err)
-	}
-}
-
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/healthz", healthHandler)
-
-	server := &http.Server{
-		Addr:              ":8081",
-		Handler:           mux,
-		ReadHeaderTimeout: 5 * time.Second,
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	cfg, err := config.Load()
+	if err != nil {
+		logger.Error("config", "error", err)
+		os.Exit(1)
 	}
-
-	log.Printf("Go API listening on %s", server.Addr)
-	log.Fatal(server.ListenAndServe())
+	database, err := sql.Open("mysql", cfg.DBDSN)
+	if err != nil {
+		logger.Error("database", "error", err)
+		os.Exit(1)
+	}
+	defer database.Close()
+	database.SetMaxOpenConns(cfg.DBMaxOpenConns)
+	database.SetMaxIdleConns(cfg.DBMaxIdleConns)
+	database.SetConnMaxLifetime(cfg.DBConnMaxLifetime)
+	database.SetConnMaxIdleTime(cfg.DBConnMaxIdleTime)
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+	waitCtx, cancel := context.WithTimeout(ctx, 120*time.Second)
+	defer cancel()
+	if err := db.WaitForSchema(waitCtx, database); err != nil {
+		logger.Error("schema readiness", "error", err)
+		os.Exit(1)
+	}
+	httpServer := &httpapi.Server{DB: database, JWTSecret: cfg.JWTSecret, ModelType: cfg.SpatieModelType, Logger: logger, LoginLimiter: httpapi.NewLoginLimiter(5, time.Minute)}
+	server := &http.Server{Addr: cfg.Addr, Handler: httpServer.Routes(), ReadHeaderTimeout: 5 * time.Second, ReadTimeout: cfg.ReadTimeout, WriteTimeout: cfg.WriteTimeout, IdleTimeout: cfg.IdleTimeout}
+	go func() {
+		logger.Info("api listening", "addr", cfg.Addr)
+		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			logger.Error("server", "error", err)
+			stop()
+		}
+	}()
+	<-ctx.Done()
+	shutdown, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	_ = server.Shutdown(shutdown)
 }
