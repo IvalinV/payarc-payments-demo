@@ -4,7 +4,7 @@ import "testing"
 
 func TestParseChargeQueryWhitelistsSortAndBoundsPageSize(t *testing.T) {
 	q, err := parseChargeQuery("page=2&page_size=500&sort=created_at:desc&status=captured&amount_min=10")
-	if err != nil || q.Page != 2 || q.PageSize != 100 || q.Sort != "created_at DESC" {
+	if err != nil || q.Page != 2 || q.PageSize != 100 || q.Sort != "charges.created_at DESC" {
 		t.Fatalf("query = %#v, %v", q, err)
 	}
 	if q.Filters["status"] != "captured" || q.Filters["amount_min"] != "10" {
@@ -15,6 +15,39 @@ func TestParseChargeQueryWhitelistsSortAndBoundsPageSize(t *testing.T) {
 func TestParseChargeQueryRejectsUnknownSort(t *testing.T) {
 	if _, err := parseChargeQuery("sort=customer_email:sideways"); err == nil {
 		t.Fatal("expected invalid sort error")
+	}
+}
+
+func TestParseChargeQueryAcceptsEveryPortalSortableColumn(t *testing.T) {
+	for _, field := range []string{
+		"created_at",
+		"external_transaction_id",
+		"merchant",
+		"customer_email",
+		"amount",
+		"amount_captured",
+		"amount_refunded",
+		"status",
+	} {
+		t.Run(field, func(t *testing.T) {
+			q, err := parseChargeQuery("sort=" + field + ":asc")
+			if err != nil {
+				t.Fatalf("sort %s rejected: %v", field, err)
+			}
+			if q.Sort == "" {
+				t.Fatalf("sort %s produced an empty SQL expression", field)
+			}
+		})
+	}
+}
+
+func TestParseChargeQueryPreservesMultipleSorts(t *testing.T) {
+	q, err := parseChargeQuery("sort=amount:desc,created_at:asc")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if q.Sort != "charges.amount DESC, charges.created_at ASC" {
+		t.Fatalf("sort = %q", q.Sort)
 	}
 }
 

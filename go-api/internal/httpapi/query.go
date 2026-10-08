@@ -14,14 +14,23 @@ type chargeQuery struct {
 	Filters        map[string]string
 }
 
-var sortFields = map[string]string{"created_at": "created_at", "amount": "amount", "status": "status", "currency": "currency", "customer_email": "customer_email"}
+var sortFields = map[string]string{
+	"created_at":              "charges.created_at",
+	"external_transaction_id": "charges.external_transaction_id",
+	"merchant":                "accounts.business_name",
+	"customer_email":          "charges.customer_email",
+	"amount":                  "charges.amount",
+	"amount_captured":         "charges.amount_captured",
+	"amount_refunded":         "charges.amount_refunded",
+	"status":                  "charges.status",
+}
 
 func parseChargeQuery(raw string) (chargeQuery, error) {
 	values, err := url.ParseQuery(raw)
 	if err != nil {
 		return chargeQuery{}, err
 	}
-	q := chargeQuery{Page: 1, PageSize: 25, Sort: "created_at DESC", Filters: map[string]string{}}
+	q := chargeQuery{Page: 1, PageSize: 25, Sort: "charges.created_at DESC", Filters: map[string]string{}}
 	if v := values.Get("page"); v != "" {
 		q.Page, err = strconv.Atoi(v)
 		if err != nil || q.Page < 1 {
@@ -42,11 +51,15 @@ func parseChargeQuery(raw string) (chargeQuery, error) {
 		return q, fmt.Errorf("invalid page")
 	}
 	if v := values.Get("sort"); v != "" {
-		parts := strings.Split(v, ":")
-		if len(parts) != 2 || (parts[1] != "asc" && parts[1] != "desc") || sortFields[parts[0]] == "" {
-			return q, fmt.Errorf("invalid sort")
+		var sorts []string
+		for _, sort := range strings.Split(v, ",") {
+			parts := strings.Split(sort, ":")
+			if len(parts) != 2 || (parts[1] != "asc" && parts[1] != "desc") || sortFields[parts[0]] == "" {
+				return q, fmt.Errorf("invalid sort")
+			}
+			sorts = append(sorts, sortFields[parts[0]]+" "+strings.ToUpper(parts[1]))
 		}
-		q.Sort = sortFields[parts[0]] + " " + strings.ToUpper(parts[1])
+		q.Sort = strings.Join(sorts, ", ")
 	}
 	for _, key := range []string{"status", "currency", "account_id", "q", "created_from", "created_to", "amount_min", "amount_max"} {
 		if v := values.Get(key); v != "" {

@@ -201,24 +201,24 @@ func (s *Server) listCharges(w http.ResponseWriter, r *http.Request) {
 	for key, value := range q.Filters {
 		switch key {
 		case "status", "currency", "account_id":
-			where += " AND " + key + "=?"
+			where += " AND charges." + key + "=?"
 			args = append(args, value)
 		case "q":
-			where += " AND (customer_email LIKE ? OR external_transaction_id LIKE ?)"
+			where += " AND (charges.customer_email LIKE ? OR charges.external_transaction_id LIKE ?)"
 			args = append(args, "%"+value+"%", "%"+value+"%")
 		case "amount_min", "amount_max":
 			op := ">="
 			if key == "amount_max" {
 				op = "<="
 			}
-			where += " AND amount " + op + " ?"
+			where += " AND charges.amount " + op + " ?"
 			args = append(args, value)
 		case "created_from", "created_to":
 			op := ">="
 			if key == "created_to" {
 				op = "<="
 			}
-			where += " AND created_at " + op + " ?"
+			where += " AND charges.created_at " + op + " ?"
 			args = append(args, value)
 		}
 	}
@@ -229,7 +229,7 @@ func (s *Server) listCharges(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	args = append(args, q.PageSize, (q.Page-1)*q.PageSize)
-	rows, err := s.DB.QueryContext(r.Context(), `SELECT id,account_id,amount,amount_captured,amount_refunded,amount_voided,currency,status,customer_email,external_transaction_id,refunded,disputed,description,void_reason,created_at FROM charges WHERE `+where+` ORDER BY `+q.Sort+` LIMIT ? OFFSET ?`, args...)
+	rows, err := s.DB.QueryContext(r.Context(), `SELECT charges.id,charges.account_id,charges.amount,charges.amount_captured,charges.amount_refunded,charges.amount_voided,charges.currency,charges.status,charges.customer_email,charges.external_transaction_id,charges.refunded,charges.disputed,charges.description,charges.void_reason,charges.created_at FROM charges JOIN accounts ON accounts.id=charges.account_id WHERE `+where+` ORDER BY `+q.Sort+` LIMIT ? OFFSET ?`, args...)
 	if err != nil {
 		writeError(w, 500, "internal_error", "internal server error")
 		return
