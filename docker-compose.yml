@@ -31,7 +31,7 @@ services:
         - nova_username
         - nova_license_key
     restart: unless-stopped
-    working_dir: /var/www/html
+    working_dir: /var/www/html/php
     env_file:
       - .env
     volumes:
@@ -41,7 +41,7 @@ services:
         condition: service_healthy
     expose:
       - "9000"
-    command: ["sh", "docker/php-entrypoint.sh"]
+    command: ["sh", "../docker/php-entrypoint.sh"]
     healthcheck:
       test: ["CMD", "test", "-f", "storage/framework/app-ready"]
       interval: 5s

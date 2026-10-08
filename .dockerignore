@@ -7,6 +7,7 @@
 auth.json
 
 vendor/
+php/vendor/
 node_modules/
 public/build/
 public/hot

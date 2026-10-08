@@ -11,6 +11,7 @@ _ide_helper*.php
 /psalm_cache/
 /phpstan_cache/
 /app/Containers/Vendor
+/php/app/Containers/Vendor
 .DS_Store
 .phpstorm.meta.php
 
@@ -24,6 +25,7 @@ _ide_helper*.php
 /storage/*.key
 /storage/pail
 /vendor
+/php/vendor
 .env
 .env.backup
 .env.production

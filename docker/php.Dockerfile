@@ -25,21 +25,21 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/php
 
 # Install dependencies first for better layer caching
-COPY composer.json composer.lock ./
+COPY php/composer.json php/composer.lock ./
 RUN --mount=type=secret,id=nova_username,env=NOVA_USERNAME \
     --mount=type=secret,id=nova_license_key,env=NOVA_LICENSE_KEY \
     export COMPOSER_AUTH="$(php -r 'echo json_encode(["http-basic" => ["nova.laravel.com" => ["username" => getenv("NOVA_USERNAME"), "password" => getenv("NOVA_LICENSE_KEY")]]]);')" \
     && composer install --no-interaction --prefer-dist --no-autoloader --no-scripts
 
 # Copy application source
-COPY . .
+COPY php/ .
 
 RUN composer dump-autoload --no-interaction --optimize
 
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html/php
 
 EXPOSE 9000
 

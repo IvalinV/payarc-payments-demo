@@ -12,7 +12,7 @@ RUN npm run build
 FROM nginx:1.27-alpine
 
 COPY --from=assets /src/dist /var/www/html/dist
-COPY public /var/www/html/public
+COPY php/public /var/www/html/php/public
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
