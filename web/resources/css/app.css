@@ -12,6 +12,7 @@
 @media (max-width: 640px) { .drawer { width: 100%; padding: 48px 20px 28px; } .detail-amount { font-size: clamp(2.2rem, 12vw, 3rem); overflow-wrap: anywhere; } .detail-list { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; } .detail-list dd { min-width: 0; overflow-wrap: anywhere; } }
 
 .grid-cell-centered { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.charge-card-main { display: grid; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; }
 .drawer .row-actions { justify-content: center; }
 .drawer h2 { overflow-wrap: anywhere; word-break: break-word; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }

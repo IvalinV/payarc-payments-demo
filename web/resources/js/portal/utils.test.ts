@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { chargeAmountValue, chargeField, formatDateTime, formatMerchant, formatMoney, toChargeQuery, canActOnCharge, isCardActivationKey, isGridActionClick, shouldFinishDrawerClose } from './utils';
+import { chargeAmountValue, chargeField, defaultRefundAmount, formatDateTime, formatMerchant, formatMoney, toChargeQuery, canActOnCharge, isCardActivationKey, isGridActionClick, shouldFinishDrawerClose } from './utils';
 
 describe('formatDateTime', () => {
     it('formats payment timestamps with an explicit UTC timezone', () => {
@@ -28,6 +28,17 @@ describe('formatMoney', () => {
     it('formats minor units using the charge currency', () => {
         expect(formatMoney(12345, 'USD')).toBe('$123.45');
         expect(formatMoney(900, 'EUR')).toBe('€9.00');
+    });
+
+    it('uses a placeholder for missing monetary values', () => {
+        expect(formatMoney(undefined, 'USD')).toBe('—');
+        expect(formatMoney('not-a-number', 'USD')).toBe('—');
+    });
+});
+
+describe('defaultRefundAmount', () => {
+    it('uses the captured amount rather than the original amount', () => {
+        expect(defaultRefundAmount({ amount: 10000, amount_captured: 7500, amount_refunded: 2500 })).toBe('50.00');
     });
 });
 
@@ -64,6 +75,15 @@ describe('toChargeQuery', () => {
         })).toBe('page=1&page_size=100&sort=created_at%3Adesc&status=captured&currency=USD');
     });
 
+    it('maps supported amount filters and ignores unsupported filter fields', () => {
+        expect(toChargeQuery({
+            filterModel: {
+                amount: { filterType: 'number', type: 'inRange', filter: 1000, filterTo: 5000 },
+                customer_email: { filterType: 'text', type: 'contains', filter: 'ignored' },
+            },
+        })).toBe('page=1&page_size=25&amount_min=1000&amount_max=5000');
+    });
+
     it('maps all active grid sorts to the API query contract', () => {
         expect(toChargeQuery({
             sortModel: [
@@ -76,12 +96,12 @@ describe('toChargeQuery', () => {
 
 describe('canActOnCharge', () => {
     it('only exposes state and permission compatible actions', () => {
-        const charge = { status: 'captured', amount_refunded: 0, amount: 1000 };
+        const charge = { status: 'captured' as const, amount_refunded: 0, amount: 1000 };
         expect(canActOnCharge(charge, ['charges.refund'], 'refund')).toBe(true);
         expect(canActOnCharge(charge, [], 'refund')).toBe(false);
         expect(canActOnCharge(charge, ['charges.void'], 'void')).toBe(false);
         expect(canActOnCharge({ ...charge, disputed: true }, ['charges.refund'], 'refund')).toBe(false);
-        expect(canActOnCharge({ status: 'authorized', disputed: true }, ['charges.void'], 'void')).toBe(false);
+        expect(canActOnCharge({ status: 'authorized' as const, disputed: true }, ['charges.void'], 'void')).toBe(false);
     });
 });
 
@@ -91,6 +111,12 @@ describe('isGridActionClick', () => {
         grid.innerHTML = '<div class="grid-actions"><button>Refund</button></div>';
         expect(isGridActionClick(grid.querySelector('button'))).toBe(true);
         expect(isGridActionClick(grid)).toBe(false);
+
+        const mobileActions = document.createElement('div');
+        mobileActions.className = 'row-actions';
+        const mobileButton = document.createElement('button');
+        mobileActions.append(mobileButton);
+        expect(isGridActionClick(mobileButton)).toBe(true);
     });
 });
 

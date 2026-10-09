@@ -11,6 +11,6 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: ['./resources/js/portal/test-setup.js'],
         globals: true,
-        include: ['resources/js/portal/**/*.test.{js,jsx}'],
+        include: ['resources/js/portal/**/*.test.{js,jsx,ts,tsx}'],
     },
 });
