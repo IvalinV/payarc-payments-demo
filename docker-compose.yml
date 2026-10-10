@@ -36,6 +36,7 @@ services:
       - .env
     volumes:
       - .:/var/www/html
+      - php-vendor:/var/www/html/php/vendor
     depends_on:
       db:
         condition: service_healthy
@@ -100,8 +101,34 @@ services:
       timeout: 5s
       retries: 30
 
+  go-test:
+    image: golang:1.22-alpine
+    profiles: ["test"]
+    working_dir: /workspace/go-api
+    env_file:
+      - .env
+    volumes:
+      - .:/workspace:ro
+    depends_on:
+      php:
+        condition: service_healthy
+    command: ["go", "test", "./..."]
+
+  web-test:
+    image: node:22-alpine
+    profiles: ["test"]
+    working_dir: /app
+    volumes:
+      - ./web:/src:ro
+      - web-test-node-modules:/app/node_modules
+    command: ["sh", "-c", "cp -R /src/. /app/ && npm ci && npm test -- --run && npm run typecheck"]
+
 volumes:
   mysql-data:
+    driver: local
+  php-vendor:
+    driver: local
+  web-test-node-modules:
     driver: local
 secrets:
   nova_username:
