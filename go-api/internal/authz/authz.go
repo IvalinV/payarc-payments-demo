@@ -15,7 +15,7 @@ func Load(ctx context.Context, db *sql.DB, id, modelType string) (User, error) {
 	if err := db.QueryRowContext(ctx, `SELECT id,email FROM users WHERE id=?`, id).Scan(&user.ID, &user.Email); err != nil {
 		return User{}, err
 	}
-	rows, err := db.QueryContext(ctx, `SELECT DISTINCT r.name FROM roles r JOIN model_has_roles mr ON mr.role_id=r.id WHERE mr.model_id=? AND mr.model_type=? AND r.guard_name='web'`, id, modelType)
+	rows, err := db.QueryContext(ctx, `SELECT DISTINCT r.name FROM roles r JOIN model_has_roles mr ON mr.role_id=r.id WHERE mr.model_id=? AND mr.model_type=? AND r.guard_name='api'`, id, modelType)
 	if err != nil {
 		return User{}, err
 	}
@@ -33,7 +33,7 @@ func Load(ctx context.Context, db *sql.DB, id, modelType string) (User, error) {
 	if err := rows.Close(); err != nil {
 		return User{}, err
 	}
-	rows, err = db.QueryContext(ctx, `SELECT DISTINCT p.name FROM permissions p JOIN role_has_permissions rp ON rp.permission_id=p.id JOIN model_has_roles mr ON mr.role_id=rp.role_id WHERE mr.model_id=? AND mr.model_type=? AND p.guard_name='web' UNION SELECT DISTINCT p.name FROM permissions p JOIN model_has_permissions mp ON mp.permission_id=p.id WHERE mp.model_id=? AND mp.model_type=? AND p.guard_name='web'`, id, modelType, id, modelType)
+	rows, err = db.QueryContext(ctx, `SELECT DISTINCT p.name FROM permissions p JOIN role_has_permissions rp ON rp.permission_id=p.id JOIN model_has_roles mr ON mr.role_id=rp.role_id WHERE mr.model_id=? AND mr.model_type=? AND p.guard_name='api' UNION SELECT DISTINCT p.name FROM permissions p JOIN model_has_permissions mp ON mp.permission_id=p.id WHERE mp.model_id=? AND mp.model_type=? AND p.guard_name='web'`, id, modelType, id, modelType)
 	if err != nil {
 		return User{}, err
 	}
