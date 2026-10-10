@@ -4,6 +4,7 @@ namespace App\Containers\AppSection\Authentication\Tests\Functional\API\Password
 
 use App\Containers\AppSection\Authentication\Tests\Functional\ApiTestCase;
 use App\Containers\AppSection\Authentication\UI\API\Controllers\PasswordReset\ForgotPasswordController;
+use App\Containers\AppSection\User\Models\User;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(ForgotPasswordController::class)]
@@ -11,9 +12,7 @@ final class ForgotPasswordTest extends ApiTestCase
 {
     public function testForgotPassword(): void
     {
-        $data = [
-            'email' => 'admin@admin.com',
-        ];
+        $data = ['email' => User::factory()->createOne()->email];
 
         $response = $this->postJson(action(ForgotPasswordController::class), $data);
 

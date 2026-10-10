@@ -21,6 +21,6 @@ final class SuperAdminSeeder_2 extends ParentSeeder
             ],
         );
 
-        $user->syncRoles([Role::query()->where('name', 'admin')->where('guard_name', 'web')->firstOrFail()]);
+        $user->syncRoles([Role::query()->where('name', 'admin')->where('guard_name', 'api')->firstOrFail()]);
     }
 }

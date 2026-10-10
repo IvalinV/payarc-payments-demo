@@ -51,7 +51,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     return null;
                 }
 
-                return $user->hasRole('admin', 'web') && $user->can('admin.access')
+                return $user->hasRole('admin', 'api') && $user->can('admin.access')
                     ? $user
                     : null;
             })
@@ -78,7 +78,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate(): void
     {
         Gate::define('viewNova', function (User $user) {
-            return $user->hasRole('admin', 'web') && $user->can('admin.access');
+            return $user->hasRole('admin', 'api') && $user->can('admin.access');
         });
     }
 

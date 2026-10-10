@@ -50,7 +50,7 @@ final class EnsureNovaAdminTest extends TestCase
     private function requestWithUser(bool $admin): Request
     {
         $user = Mockery::mock();
-        $user->shouldReceive('hasRole')->with('admin', 'web')->andReturn($admin);
+        $user->shouldReceive('hasRole')->with('admin', 'api')->andReturn($admin);
         $user->shouldReceive('can')->with('admin.access')->andReturn($admin);
 
         $request = Request::create('/admin');

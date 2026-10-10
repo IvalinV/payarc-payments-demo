@@ -21,7 +21,7 @@ final class MigrationTest extends UnitTestCase
     public function testPermissionsTableHasExpectedColumns(): void
     {
         $columns = [
-            'id' => 'int8',
+            'id' => 'bigint',
             'name' => 'varchar',
             'guard_name' => 'varchar',
             'display_name' => 'varchar',
@@ -36,7 +36,7 @@ final class MigrationTest extends UnitTestCase
     public function testRolesTableHasExpectedColumns(): void
     {
         $columns = [
-            'id' => 'int8',
+            'id' => 'bigint',
             'name' => 'varchar',
             'guard_name' => 'varchar',
             'display_name' => 'varchar',
@@ -51,9 +51,9 @@ final class MigrationTest extends UnitTestCase
     public function testModelHasPermissionsTableHasExpectedColumns(): void
     {
         $columns = [
-            'permission_id' => 'int8',
+            'permission_id' => 'bigint',
             'model_type' => 'varchar',
-            $this->columnNames['model_morph_key'] => 'int8',
+            $this->columnNames['model_morph_key'] => 'bigint',
         ];
 
         $this->assertDatabaseTable($this->tableNames['model_has_permissions'], $columns);
@@ -62,9 +62,9 @@ final class MigrationTest extends UnitTestCase
     public function testModelHasRolesTableHasExpectedColumns(): void
     {
         $columns = [
-            'role_id' => 'int8',
+            'role_id' => 'bigint',
             'model_type' => 'varchar',
-            $this->columnNames['model_morph_key'] => 'int8',
+            $this->columnNames['model_morph_key'] => 'bigint',
         ];
 
         $this->assertDatabaseTable($this->tableNames['model_has_roles'], $columns);
@@ -73,8 +73,8 @@ final class MigrationTest extends UnitTestCase
     public function testRoleHasPermissionsTableHasExpectedColumns(): void
     {
         $columns = [
-            'permission_id' => 'int8',
-            'role_id' => 'int8',
+            'permission_id' => 'bigint',
+            'role_id' => 'bigint',
         ];
 
         $this->assertDatabaseTable($this->tableNames['role_has_permissions'], $columns);

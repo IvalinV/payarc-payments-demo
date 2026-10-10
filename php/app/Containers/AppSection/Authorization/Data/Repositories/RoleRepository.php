@@ -30,7 +30,7 @@ final class RoleRepository extends ParentRepository
 
     public function makeSuperAdmin(User $user): User
     {
-        $role = $this->getModel()::findByName(RoleEnum::SUPER_ADMIN->value, 'web');
+        $role = $this->getModel()::findByName(RoleEnum::SUPER_ADMIN->value, 'api');
         $user->assignRole($role);
 
         return $user;

@@ -36,6 +36,7 @@ RUN --mount=type=secret,id=nova_username,env=NOVA_USERNAME \
 
 # Copy application source
 COPY php/ .
+COPY contracts/ /var/www/html/contracts/
 
 RUN composer dump-autoload --no-interaction --optimize
 

@@ -3,6 +3,7 @@
 namespace App\Containers\AppSection\Authorization\Tests\Functional\API;
 
 use App\Containers\AppSection\Authorization\Tests\Functional\ApiTestCase;
+use App\Containers\AppSection\Authorization\Models\Role;
 use App\Containers\AppSection\Authorization\UI\API\Controllers\ListRolesController;
 use App\Containers\AppSection\User\Models\User;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -21,7 +22,7 @@ final class ListRolesTest extends ApiTestCase
         $response->assertJson(
             static fn (AssertableJson $json) => $json->has(
                 'data',
-                1,
+                Role::query()->where('guard_name', 'api')->count(),
             )->etc(),
         );
     }

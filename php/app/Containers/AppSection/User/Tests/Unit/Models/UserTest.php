@@ -28,6 +28,9 @@ final class UserTest extends UnitTestCase
             'password',
             'gender',
             'birth',
+            'is_admin',
+            'is_agent',
+            'is_merchant',
         ];
 
         $this->assertSame($fillable, $user->getFillable());
@@ -42,6 +45,9 @@ final class UserTest extends UnitTestCase
             'password' => 'hashed',
             'gender' => Gender::class,
             'birth' => 'immutable_date',
+            'is_admin' => 'boolean',
+            'is_agent' => 'boolean',
+            'is_merchant' => 'boolean',
         ];
 
         $this->assertSame($casts, $user->getCasts());

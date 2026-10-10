@@ -14,7 +14,7 @@ final class UserRoleObserver
     public function syncFlags(User $user): void
     {
         $roles = $user->roles()
-            ->where('guard_name', 'web')
+            ->where('guard_name', 'api')
             ->pluck('name');
 
         $flags = [

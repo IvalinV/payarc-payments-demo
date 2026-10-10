@@ -66,6 +66,10 @@ make test
 make smoke
 ```
 
+PHP tests run against an isolated `payarc_test` MySQL database. The test target
+creates that database and grants the demo database user access without resetting
+the seeded `payarc` database.
+
 Run the smoke checks against another running stack with:
 
 ```bash

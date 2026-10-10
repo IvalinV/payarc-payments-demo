@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class User extends ParentUserModel
 {
-    protected $guard_name = 'web';
+    protected $guard_name = 'api';
 
     protected $fillable = [
         'name',
@@ -91,7 +91,7 @@ final class User extends ParentUserModel
 
     public function isSuperAdmin(): bool
     {
-        return $this->hasRole(RoleEnum::SUPER_ADMIN, 'web');
+        return $this->hasRole(RoleEnum::SUPER_ADMIN, 'api');
     }
 
     protected function email(): Attribute

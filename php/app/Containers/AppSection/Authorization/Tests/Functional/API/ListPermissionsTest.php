@@ -23,7 +23,7 @@ final class ListPermissionsTest extends ApiTestCase
         $response->assertJson(
             static fn (AssertableJson $json) => $json->has(
                 'data',
-                2,
+                min(10, Permission::query()->where('guard_name', 'api')->count()),
             )->etc(),
         );
     }

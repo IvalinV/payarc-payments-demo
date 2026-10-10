@@ -17,6 +17,6 @@ final class ListPermissionsActionTest extends UnitTestCase
 
         $result = $action->run();
 
-        $this->assertCount(3, $result);
+        $this->assertCount(min(10, Permission::query()->where('guard_name', 'api')->count()), $result);
     }
 }

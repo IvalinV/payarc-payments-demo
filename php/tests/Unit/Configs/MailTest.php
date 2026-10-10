@@ -69,6 +69,7 @@ final class MailTest extends ShipTestCase
                 'paths' => [
                     base_path('/resources/views/vendor/mail'),
                 ],
+                'extensions' => [],
             ],
         ];
 

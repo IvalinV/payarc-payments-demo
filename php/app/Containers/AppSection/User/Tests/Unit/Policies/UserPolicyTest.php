@@ -48,7 +48,7 @@ final class UserPolicyTest extends UnitTestCase
         $target = User::factory()->createOne();
         $admin->assignRole(Role::query()->firstOrCreate([
             'name' => 'admin',
-            'guard_name' => 'web',
+            'guard_name' => 'api',
         ]));
 
         $this->assertTrue(Gate::forUser($admin)->allows('update', $target));

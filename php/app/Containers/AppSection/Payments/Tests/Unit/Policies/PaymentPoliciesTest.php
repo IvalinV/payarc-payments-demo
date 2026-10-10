@@ -70,7 +70,7 @@ final class PaymentPoliciesTest extends TestCase
         $user = User::factory()->createOne();
         $user->givePermissionTo(Permission::firstOrCreate([
             'name' => $permission,
-            'guard_name' => 'web',
+            'guard_name' => 'api',
         ]));
 
         return $user;

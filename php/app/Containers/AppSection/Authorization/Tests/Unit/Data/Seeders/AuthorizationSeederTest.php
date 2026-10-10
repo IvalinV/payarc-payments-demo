@@ -13,7 +13,7 @@ final class AuthorizationSeederTest extends UnitTestCase
     {
         $this->assertDatabaseHas('roles', [
             'name' => 'admin',
-            'guard_name' => 'web',
+            'guard_name' => 'api',
         ]);
     }
 }

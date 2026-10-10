@@ -34,6 +34,6 @@ final class UpdateUserRequest extends ParentRequest
 
     public function authorize(): bool
     {
-        return $this->user()->can('update', [User::class, $this->user_id]);
+        return $this->user()->can('update', [User::class, User::find($this->user_id)]);
     }
 }

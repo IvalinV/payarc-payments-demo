@@ -31,14 +31,14 @@ final class UserPolicy extends ParentPolicy
         return $user !== null && $target !== null && $user->can('users.manage') && ! $user->is($target);
     }
 
-    public function view(User $user, User $target): bool
+    public function view(User $user, ?User $target): bool
     {
-        return $user->is($target) || $user->can('users.manage');
+        return $target !== null && ($user->is($target) || $user->can('users.manage'));
     }
 
-    public function update(User $user, User $target): bool
+    public function update(User $user, ?User $target): bool
     {
-        return $user->is($target) || $user->can('users.manage');
+        return $target !== null && ($user->is($target) || $user->can('users.manage'));
     }
 
     public function index(): bool

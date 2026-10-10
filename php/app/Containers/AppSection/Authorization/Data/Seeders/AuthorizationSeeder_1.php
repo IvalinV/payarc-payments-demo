@@ -10,7 +10,7 @@ final class AuthorizationSeeder_1 extends ParentSeeder
     public function run(): void
     {
         Role::updateOrCreate(
-            ['name' => 'admin', 'guard_name' => 'web'],
+            ['name' => 'admin', 'guard_name' => 'api'],
             ['display_name' => 'Super Admin', 'description' => 'Administrator'],
         );
     }

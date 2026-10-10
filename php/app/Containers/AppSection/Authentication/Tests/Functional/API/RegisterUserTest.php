@@ -2,13 +2,11 @@
 
 namespace App\Containers\AppSection\Authentication\Tests\Functional\API;
 
-use App\Containers\AppSection\Authentication\Notifications\Welcome;
 use App\Containers\AppSection\Authentication\Tests\Functional\ApiTestCase;
 use App\Containers\AppSection\Authentication\UI\API\Controllers\RegisterUserController;
 use App\Containers\AppSection\User\Models\User;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Testing\Fluent\AssertableJson;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -18,7 +16,7 @@ final class RegisterUserTest extends ApiTestCase
 {
     public function testRegisterNewUserWithCredentials(): void
     {
-        Notification::fake();
+        Event::fake();
         $data = [
             'email' => 'ganldalf@the.grey',
             'password' => 's3cr3tPa$$',
@@ -33,10 +31,7 @@ final class RegisterUserTest extends ApiTestCase
                 ->etc(),
         );
         $user = User::find(hashids()->decodeOrFail($response->json('data.id')));
-        Notification::assertSentTo($user, Welcome::class);
-        if (is_a(User::class, MustVerifyEmail::class, true)) {
-            Notification::assertSentTo($user, VerifyEmail::class);
-        }
+        Event::assertDispatched(Registered::class, static fn (Registered $event): bool => $event->user->is($user));
     }
 
     public function testPreventsDuplicateEmailRegistration(): void

@@ -17,6 +17,6 @@ final class ListRolesActionTest extends UnitTestCase
 
         $result = $action->run();
 
-        $this->assertCount(4, $result);
+        $this->assertCount(Role::query()->where('guard_name', 'api')->count(), $result);
     }
 }

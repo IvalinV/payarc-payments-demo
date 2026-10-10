@@ -48,7 +48,7 @@ final class InitialDeploymentDataSeeder extends Seeder
         $permissions = [];
         foreach ($permissionNames as $name) {
             $permissions[$name] = Permission::updateOrCreate(
-                ['name' => $name, 'guard_name' => 'web'],
+                ['name' => $name, 'guard_name' => 'api'],
             );
         }
 
@@ -61,7 +61,7 @@ final class InitialDeploymentDataSeeder extends Seeder
         $roles = [];
         foreach ($rolePermissions as $name => $names) {
             $role = Role::updateOrCreate(
-                ['name' => $name, 'guard_name' => 'web'],
+                ['name' => $name, 'guard_name' => 'api'],
                 ['display_name' => ucfirst($name)],
             );
             $role->syncPermissions(array_map(static fn (string $permission): Permission => $permissions[$permission], $names));

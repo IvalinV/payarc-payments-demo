@@ -12,8 +12,8 @@ final class ShipMigrationTest extends ShipTestCase
     {
         $columns = [
             'key' => 'varchar',
-            'value' => 'text',
-            'expiration' => 'int4',
+            'value' => 'mediumtext',
+            'expiration' => 'int',
         ];
 
         $this->assertDatabaseTable('cache', $columns);
@@ -24,7 +24,7 @@ final class ShipMigrationTest extends ShipTestCase
         $columns = [
             'key' => 'varchar',
             'owner' => 'varchar',
-            'expiration' => 'int4',
+            'expiration' => 'int',
         ];
 
         $this->assertDatabaseTable('cache_locks', $columns);
@@ -33,13 +33,13 @@ final class ShipMigrationTest extends ShipTestCase
     public function testJobsTableHasExpectedColumns(): void
     {
         $columns = [
-            'id' => 'int8',
+            'id' => 'bigint',
             'queue' => 'varchar',
-            'payload' => 'text',
-            'attempts' => 'int2',
-            'reserved_at' => 'int4',
-            'available_at' => 'int4',
-            'created_at' => 'int4',
+            'payload' => 'longtext',
+            'attempts' => 'tinyint',
+            'reserved_at' => 'int',
+            'available_at' => 'int',
+            'created_at' => 'int',
         ];
 
         $this->assertDatabaseTable('jobs', $columns);
@@ -50,14 +50,14 @@ final class ShipMigrationTest extends ShipTestCase
         $columns = [
             'id' => 'varchar',
             'name' => 'varchar',
-            'total_jobs' => 'int4',
-            'pending_jobs' => 'int4',
-            'failed_jobs' => 'int4',
-            'failed_job_ids' => 'text',
-            'options' => 'text',
-            'cancelled_at' => 'int4',
-            'created_at' => 'int4',
-            'finished_at' => 'int4',
+            'total_jobs' => 'int',
+            'pending_jobs' => 'int',
+            'failed_jobs' => 'int',
+            'failed_job_ids' => 'longtext',
+            'options' => 'mediumtext',
+            'cancelled_at' => 'int',
+            'created_at' => 'int',
+            'finished_at' => 'int',
         ];
 
         $this->assertDatabaseTable('job_batches', $columns);
@@ -66,11 +66,11 @@ final class ShipMigrationTest extends ShipTestCase
     public function testFailedJobsTableHasExpectedColumns(): void
     {
         $columns = [
-            'id' => 'int8',
+            'id' => 'bigint',
             'connection' => 'text',
             'queue' => 'text',
-            'payload' => 'text',
-            'exception' => 'text',
+            'payload' => 'longtext',
+            'exception' => 'longtext',
             'failed_at' => 'timestamp',
             'uuid' => 'varchar',
         ];
@@ -81,9 +81,9 @@ final class ShipMigrationTest extends ShipTestCase
     public function testNotificationsTableHasExpectedColumns(): void
     {
         $columns = [
-            'id' => 'uuid',
+            'id' => 'char',
             'type' => 'varchar',
-            'notifiable_id' => 'int8',
+            'notifiable_id' => 'bigint',
             'notifiable_type' => 'varchar',
             'data' => 'text',
             'read_at' => 'timestamp',

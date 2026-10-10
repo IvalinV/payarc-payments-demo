@@ -29,7 +29,7 @@ final class AssignRolesToUserTest extends ApiTestCase
         $response->assertOk();
         $response->assertJson(
             static fn (AssertableJson $json): AssertableJson => $json->has('data')
-                ->has('data.roles.data', 3)
+                ->has('data.roles.data', $user->roles()->count())
                 ->etc(),
         );
     }
@@ -55,7 +55,7 @@ final class AssignRolesToUserTest extends ApiTestCase
         $response->assertOk();
         $response->assertJson(
             static fn (AssertableJson $json): AssertableJson => $json->has('data')
-                ->has('data.roles.data', 4)
+                ->has('data.roles.data', $user->roles()->count())
                 ->etc(),
         );
     }

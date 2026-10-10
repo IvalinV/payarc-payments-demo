@@ -20,7 +20,7 @@ final class ListUsersTest extends ApiTestCase
 
         $response->assertOk();
         $response->assertJson(
-            static fn (AssertableJson $json): AssertableJson => $json->has('data', 4)
+            static fn (AssertableJson $json): AssertableJson => $json->has('data', User::query()->count())
                 ->etc(),
         );
     }

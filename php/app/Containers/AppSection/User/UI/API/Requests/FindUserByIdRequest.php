@@ -18,6 +18,6 @@ final class FindUserByIdRequest extends ParentRequest
 
     public function authorize(): bool
     {
-        return $this->user()->can('show', [User::class, $this->user_id]);
+        return $this->user()->can('view', [User::class, User::find($this->user_id)]);
     }
 }

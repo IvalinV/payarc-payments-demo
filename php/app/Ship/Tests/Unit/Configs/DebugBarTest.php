@@ -38,6 +38,7 @@ final class DebugBarTest extends ShipTestCase
             'ajax_handler_enable_tab' => true,
             'defer_datasets' => false,
             'error_handler' => false,
+            'error_level' => E_ALL,
             'clockwork' => false,
             'collectors' => [
                 'phpinfo' => true,

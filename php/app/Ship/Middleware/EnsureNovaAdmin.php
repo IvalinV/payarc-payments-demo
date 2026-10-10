@@ -26,7 +26,7 @@ final class EnsureNovaAdmin
             return redirect(Nova::url('/login'));
         }
 
-        if (! $user->hasRole('admin', 'web') || ! $user->can('admin.access')) {
+        if (! $user->hasRole('admin', 'api') || ! $user->can('admin.access')) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
