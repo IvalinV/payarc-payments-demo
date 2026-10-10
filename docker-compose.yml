@@ -37,6 +37,7 @@ services:
     volumes:
       - .:/var/www/html
       - php-vendor:/var/www/html/php/vendor
+      - php-containers-vendor:/var/www/html/php/app/Containers/Vendor
     depends_on:
       db:
         condition: service_healthy
@@ -127,6 +128,8 @@ volumes:
   mysql-data:
     driver: local
   php-vendor:
+    driver: local
+  php-containers-vendor:
     driver: local
   web-test-node-modules:
     driver: local
