@@ -18,6 +18,7 @@ storage/framework/sessions/*
 storage/framework/views/*
 storage/debugbar/
 storage/inertia-devtools/
+php/storage/*
 
 .phpunit.cache
 *.log
