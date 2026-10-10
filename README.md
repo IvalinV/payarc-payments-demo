@@ -8,7 +8,7 @@ behind one Docker Compose stack.
 Requirements:
 
 - Docker and Docker Compose
-- Copy the environment file: `cp .env.example .env`
+- Copy `.env.example` to `.env`
 - Nova credentials configured as `NOVA_USERNAME` and `NOVA_LICENSE_KEY`
 
 Start the application:
