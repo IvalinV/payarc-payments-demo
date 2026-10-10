@@ -61,10 +61,18 @@ authenticated requests.
 ## Tests
 
 ```bash
-npm test
-npm run build
-cd go-api && go test ./...
+docker compose up --build -d
+make test
+make smoke
 ```
 
-Run MySQL integration checks by setting `GO_API_INTEGRATION_DSN` before the Go
-test command.
+Run the smoke checks against another running stack with:
+
+```bash
+BASE_URL=http://localhost:8080 make smoke
+```
+
+The Go MySQL integration check is enabled separately by setting
+`GO_API_INTEGRATION_DSN` before running the Go test command. Smoke tests use
+the demo database only and create uniquely identified charges for refund and
+void checks.
